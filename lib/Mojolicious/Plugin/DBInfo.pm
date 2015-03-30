@@ -145,63 +145,26 @@ th {
 
 <h1>Database Information</h1> 
 
-<h2>%ENV</h2>
+<h2>Schema sources and classes</h2>
 
+% use Data::Dumper;
+
+% my @sources = schema->sources;
+% print STDERR Dumper(\@sources);
 %= tag table => class => "striped" => begin
   %= tag tr => begin
-    % for my $header (qw(key value)) {
-      %= tag th =>  $header 
+    % for my $header (qw(source table)) {
+      %= tag th =>  l $header 
     % } 
   %= end
-  % for my $key (sort keys %ENV) {
+  % for my $source (sort @sources) {
+    % my $table = schema->class($source)->table;
       %= tag tr => begin
-        %= tag td =>  $key
-        %= tag td =>  $ENV{$key} // ''
+        %= tag td =>  $source
+        %= tag td =>  $table 
       %= end
   % }
 %= end
-
-
-<h2>Perl @INC</h2>
-
-%= tag table => class => "striped" => begin
-  %= tag tr => begin
-    % for my $header (qw(path)) {
-      %= tag th =>  $header 
-    % } 
-  %= end
-  % for my $path (@INC) {
-      %= tag tr => begin
-        %= tag td =>  $path // ''
-      %= end
-  % }
-%= end
-
-<h2>Perl %INC</h2>
-
-%= tag table => class => "striped" => begin
-  %= tag tr => begin
-    % for my $header (qw(file version path)) {
-      %= tag th =>  $header 
-    % } 
-  %= end
-  % for my $key (sort keys %INC) {
-      % my $module = $key;
-      % $module =~ s{\/}{::}gsmx;
-      % $module =~ s/.pm$//g;
-      % my $version; 
-      % { no strict 'refs';
-        % $version = ${$module . "::VERSION"} || '';
-      % }
-      %= tag tr => begin
-        %= tag td =>  $key
-        %= tag td =>  $version
-        %= tag td =>  $INC{$key} // ''
-      %= end
-  % }
-%= end
-
-<p>Number of modules: <%= scalar keys %INC %></p>
 
 </div>
 </body>
