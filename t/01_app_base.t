@@ -23,8 +23,6 @@ ok($schema, 'MyApp schema');
 
 my @sources = $schema->sources;
 
-print STDERR '@sources: ',Dumper(\@sources);
-
 is(scalar(@sources),2, 'scalar @sources');
 
 my $source = $sources[0];
@@ -34,4 +32,3 @@ ok($source, 'MyApp source');
 my $table = $schema->class($source)->table;
 
 ok($table, 'MyApp table');
-

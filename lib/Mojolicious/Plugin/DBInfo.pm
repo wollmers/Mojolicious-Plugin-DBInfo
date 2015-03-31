@@ -156,11 +156,10 @@ th {
 % use Data::Dumper;
 
 % my @sources = schema->sources;
-% print STDERR Dumper(\@sources);
 %= tag table => class => "striped" => begin
   %= tag tr => begin
     % for my $header (qw(source table)) {
-      %= tag th =>  l $header 
+      %= tag th =>  $header 
     % } 
   %= end
   % for my $source (sort @sources) {

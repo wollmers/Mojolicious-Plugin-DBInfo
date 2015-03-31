@@ -1,10 +1,6 @@
 package MyApp;
 use Mojo::Base 'Mojolicious';
 
-use Data::Dumper;
-
-#use MySchema;
-
 has db => sub {
   my $self         = shift;
 
@@ -14,7 +10,6 @@ has db => sub {
       'source2' => MySchema::Class->new(table => 'table1'),
     },
   );
-  print STDERR 'Schema: ',Dumper($schema);
   return $schema;
 };
 
@@ -32,14 +27,12 @@ sub startup {
 
 package MySchema;
 use Mojo::Base -base;
-use Data::Dumper;
 
 has 'entries';
 
 sub sources {
   my $self = shift;
   my @sources = (keys %{$self->entries});
-  print STDERR '@sources: ',Dumper(\@sources);
   #return (keys %{$self->entries});
   return @sources;
 };
@@ -47,7 +40,6 @@ sub sources {
 sub class {
   my $self = shift;
   my $source = shift;
-  print 'class: ',Dumper($self->entries->{$source});
   return $self->entries->{$source};
 };
 
